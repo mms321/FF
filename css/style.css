@@ -1,0 +1,322 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #e0f7fa 0%, #fffde4 100%);
+  color: #333;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Декоративний фон-сніжинки */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  background-image: url('../img/snowflake.png'), url('../img/snowflake2.png');
+  background-repeat: repeat;
+  opacity: 0.08;
+  z-index: 0;
+}
+
+header {
+  background: linear-gradient(90deg, #1976d2 0%, #ffb300 100%);
+  color: #fff;
+  padding: 48px 0 36px 0;
+  box-shadow: 0 8px 32px rgba(21, 101, 192, 0.18);
+  border-bottom: 6px solid #ffb300;
+  position: relative;
+  overflow: hidden;
+}
+
+header::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 10px;
+  background: linear-gradient(90deg, #fffde4 0%, #ffb300 100%);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 3.5em;
+  letter-spacing: 3px;
+  text-shadow: 0 4px 24px #ffb30088, 0 2px 8px #1565c055;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 4px 24px #ffb30088, 0 2px 8px #1565c055; }
+  to   { text-shadow: 0 8px 48px #fffde4cc, 0 2px 8px #1565c055; }
+}
+
+header img {
+  width: 260px;
+  height: auto;
+  margin-top: 18px;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px #1976d288, 0 2px 8px #ffb30088;
+  border: 4px solid #fffde4;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+header img:hover {
+  transform: scale(1.08) rotate(-2deg);
+  box-shadow: 0 16px 48px #ffb300cc, 0 2px 8px #1976d288;
+}
+
+h1 {
+  margin: 0;
+  font-size: 3em;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px #1565c055;
+}
+
+h2 {
+  color: #1976d2;
+  font-size: 2em;
+  margin-top: 30px;
+  text-shadow: 0 1px 6px #81d4fa88;
+}
+
+.highlights-content {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 20px;
+  gap: 20px;
+}
+
+article {
+  background: linear-gradient(135deg, #fff 80%, #e3f2fd 100%);
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(21, 101, 192, 0.12);
+  margin: 10px;
+  padding: 24px;
+  width: 320px;
+  border: 2px solid #81d4fa;
+  position: relative;
+  transition: transform 0.2s;
+}
+article:hover {
+  transform: scale(1.04);
+  box-shadow: 0 12px 32px rgba(21, 101, 192, 0.18);
+}
+
+.icon {
+  font-size: 2.2em;
+  margin-bottom: 8px;
+  animation: iconBounce 2s infinite;
+}
+@keyframes iconBounce {
+  0%, 100% { transform: translateY(0);}
+  50% { transform: translateY(-10px);}
+}
+
+footer,
+.site-footer {
+  background: linear-gradient(90deg, #1565c0 0%, #81d4fa 100%);
+  color: #fff;
+  padding: 16px;
+  margin-top: 30px;
+  box-shadow: 0 -2px 12px #1565c055;
+}
+
+.site-footer p {
+  color: #1976d2;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  border: 2px solid #1976d2;
+  padding: 10px 24px;
+  border-radius: 12px 0px;
+  background-color: #e3f2fd;
+  cursor: pointer;
+  font-weight: bold;
+  margin: 8px auto;
+  transition: background 0.2s, color 0.2s;
+}
+.site-footer p:hover {
+  background: #1976d2;
+  color: #fff;
+}
+
+.wishes {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.wishes-box {
+  background: linear-gradient(135deg, #fffde4 70%, #e3f2fd 100%);
+  border-radius: 32px;
+  box-shadow: 0 8px 32px #1976d288, 0 2px 8px #ffb30088;
+  padding: 32px 24px 24px 24px;
+  margin: 0 auto;
+  max-width: 420px;
+  position: relative;
+  border: 3px solid #ffb300;
+  animation: wishesGlow 2s infinite alternate;
+}
+
+@keyframes wishesGlow {
+  from { box-shadow: 0 8px 32px #1976d288, 0 2px 8px #ffb30088; }
+  to   { box-shadow: 0 16px 48px #ffb300cc, 0 2px 8px #1976d288; }
+}
+
+.wishes-decor, .wishes-decor-bottom {
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 12px;
+  margin-top: 12px;
+  user-select: none;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.wishes-decor-bottom {
+  margin-top: 18px;
+  margin-bottom: 0;
+}
+
+#btn_love_wishes {
+  background: linear-gradient(45deg, #1976d2, #ffb300);
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 32px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 14px rgba(21, 101, 192, 0.18);
+}
+#btn_love_wishes:hover {
+  background: linear-gradient(45deg, #ffb300, #1976d2);
+  transform: scale(1.08);
+  box-shadow: 0 8px 24px rgba(21, 101, 192, 0.28);
+}
+
+#btn_love_wishes:active {
+  transform: scale(0.96);
+}
+
+#love-wishes {
+  height: 120px;
+  font-size: 28px;
+  line-height: 40px;
+  color: #1976d2;
+  text-align: center;
+  margin-top: 18px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-weight: bold;
+  background: rgba(255, 243, 224, 0.7);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px #ffb30033;
+  padding: 16px;
+  transition: background 0.3s;
+}
+
+@media (max-width: 900px) {
+  .highlights-content {
+    flex-direction: column;
+    align-items: center;
+  }
+  article {
+    width: 90vw;
+  }
+}
+
+.ideas {
+  margin: 40px auto 0 auto;
+  max-width: 600px;
+  background: linear-gradient(135deg, #e3f2fd 80%, #fffde4 100%);
+  border-radius: 24px;
+  box-shadow: 0 4px 18px #1976d244;
+  padding: 24px;
+  font-size: 1.2em;
+}
+
+/* --- Покращений дизайн повзунка --- */
+.snow-control {
+  margin-top: 18px;
+  margin-bottom: 8px;
+  font-size: 1.1em;
+  color: #1976d2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.snow-control label {
+  margin-right: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-size: 1.15em;
+  color: #1565c0;
+}
+
+#snowRange {
+  width: 220px;
+  height: 8px;
+  background: linear-gradient(90deg, #81d4fa 0%, #ffb300 100%);
+  border-radius: 8px;
+  outline: none;
+  margin-top: 4px;
+  transition: box-shadow 0.3s;
+  box-shadow: 0 2px 8px #1976d244;
+  accent-color: #ffb300;
+}
+
+/* Стиль для повзунка (Chrome, Edge, Opera) */
+#snowRange::-webkit-slider-thumb {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, #ffb300 60%, #1976d2 100%);
+  box-shadow: 0 2px 8px #1976d288;
+  border: 2px solid #fffde4;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+#snowRange:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+  box-shadow: 0 4px 16px #ffb30088;
+}
+
+/* Стиль для повзунка (Firefox) */
+#snowRange::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, #ffb300 60%, #1976d2 100%);
+  box-shadow: 0 2px 8px #1976d288;
+  border: 2px solid #fffde4;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+#snowRange:active::-moz-range-thumb {
+  transform: scale(1.15);
+  box-shadow: 0 4px 16px #ffb30088;
+}
+
+/* Стиль для повзунка (IE) */
+#snowRange::-ms-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, #ffb300 60%, #1976d2 100%);
+  box-shadow: 0 2px 8px #1976d288;
+  border: 2px solid #fffde4;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+/* При наведенні на повзунок */
+#snowRange:hover {
+  box-shadow: 0 4px 16px #ffb30044;
+}
