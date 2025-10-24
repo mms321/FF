@@ -1,78 +1,111 @@
-const arrayOfLoveWishes = [
-    "З Новим роком! Нехай здійсняться всі мрії!",
-    "Бажаю щастя, здоров’я та удачі у новому році!",
-    "Нехай цей рік принесе багато радісних моментів!",
-    "Хай у домі панує затишок і тепло!",
-    "Бажаю нових звершень та яскравих емоцій!",
-    "Нехай кожен день буде наповнений добром і любов’ю!",
-    "Хай у новому році здійсниться найзаповітніше бажання!",
-    "Бажаю миру, гармонії та натхнення!",
-    "Нехай у серці завжди буде святковий настрій!",
-    "Хай новий рік подарує багато щасливих днів!",
-    "Бажаю веселих свят і приємних сюрпризів!",
-    "Нехай у новому році буде багато посмішок і радості!",
-    "Хай у житті буде більше чудес і приємних несподіванок!",
-    "Бажаю тепла, затишку та любові у новому році!",
-    "Нехай новий рік стане початком великих перемог!"
-];
+// ...existing code...
+document.addEventListener('DOMContentLoaded', () => {
 
-document.getElementById('btn_love_wishes').addEventListener('click', () => {
-    let index = Math.floor(Math.random() * arrayOfLoveWishes.length);
-    document.getElementById('love-wishes').innerText = arrayOfLoveWishes[index];
-});
+  const arrayOfLoveWishes = [
+    "Нехай зелень життя приносить спокій і натхнення!",
+    "Бажаю росту, відновлення й гармонії — у зелених тонах!",
+    "Нехай кожен день буде як свіжа весняна трава — наповнений енергією.",
+    "Хай життя цвіте, як сад після дощу — більше зелених миттєвостей!",
+    "Бажаю миру, здоров'я та гармонії, що дає зелений колір.",
+    "Нехай у вашому домі буде більше рослин, тепла і зелені!",
+    "Бажаю нових починань і стабільного зростання, як у дерева.",
+    "Нехай ваші мрії ростуть і міцнішають, як коріння в землі.",
+    "Бажаю затишку, балансу і свіжого погляду на життя.",
+    "Хай колір вашої мрії буде джерелом радості та спокою!",
+    "Нехай зелень навколо надихає на добрі вчинки й творчість.",
+    "Бажаю знайти внутрішній баланс і силу, як у міцного дерева."
+  ];
 
-// --- Регулювання інтенсивності снігу ---
-let snowInterval = 400;
-let snowTimer;
-let snowflakeSize = 32;
-let snowflakeSpeed = 2;
+  const btn = document.getElementById('btn_love_wishes');
+  const loveEl = document.getElementById('love-wishes');
+  const rangeEl = document.getElementById('snowRange');
+  const rangeValueEl = document.getElementById('range-value');
 
-function updateSnowSettings() {
-    // Чим менше інтервал, тим більше сніжинок, вони дрібніші і швидші
-    const minInterval = 100, maxInterval = 1200;
-    const minSize = 32, maxSize = 80;      // маленькі як були великі, великі ще більші
-    const minSpeed = 4, maxSpeed = 3;    // швидко для маленьких, повільно для великих
-    const value = Number(document.getElementById('snowRange').value);
+  if (btn && loveEl) {
+    btn.addEventListener('click', () => {
+      const index = Math.floor(Math.random() * arrayOfLoveWishes.length);
+      loveEl.innerText = arrayOfLoveWishes[index];
+    });
+  }
 
-    // При великій інтенсивності (малий інтервал) — маленькі і швидкі
-    snowflakeSize = minSize + ((value - minInterval) / (maxInterval - minInterval)) * (maxSize - minSize);
-    snowflakeSpeed = minSpeed - ((value - minInterval) / (maxInterval - minInterval)) * (minSpeed - maxSpeed);
+  // Параметри анімації листочків
+  let intervalId = null;
+  let createInterval = 400;
+  let leafSize = 28;
+  let leafSpeed = 2.2;
 
-    snowInterval = value;
-    clearInterval(snowTimer);
-    snowTimer = setInterval(createSnowflake, snowInterval);
-}
+  function updateRangeLabel(t) {
+    if (!rangeValueEl) return;
+    if (t < 0.33) rangeValueEl.textContent = 'Низька';
+    else if (t < 0.66) rangeValueEl.textContent = 'Середня';
+    else rangeValueEl.textContent = 'Висока';
+  }
 
-function createSnowflake() {
-    const snowflake = document.createElement('div');
-    snowflake.innerText = '❄️';
-    snowflake.style.position = 'fixed';
-    snowflake.style.left = Math.random() * window.innerWidth + 'px';
-    snowflake.style.top = '-40px';
-    snowflake.style.fontSize = (Math.random() * (snowflakeSize/2) + snowflakeSize/2) + 'px';
-    snowflake.style.opacity = Math.random() * 0.7 + 0.3;
-    snowflake.style.pointerEvents = 'none';
-    snowflake.style.zIndex = 1000;
-    document.body.appendChild(snowflake);
+  function updateSettings() {
+    if (!rangeEl) return;
+    const min = 100, max = 1200;
+    const minSize = 18, maxSize = 48;
+    const minSpeed = 0.9, maxSpeed = 4.0;
+    const value = Number(rangeEl.value);
+    const t = Math.max(0, Math.min(1, (value - min) / (max - min))); // 0..1
+    // Інтенсивність: повзунок вправо → більше листя
+    createInterval = Math.round(lerp(max, min, t)); // більше t → менший інтервал
+    leafSize = Math.round(lerp(maxSize, minSize, t)); // більше t → дрібніші листки
+    leafSpeed = lerp(minSpeed, maxSpeed, t); // більше t → швидше падіння
 
-    let speed = Math.random() * snowflakeSpeed + snowflakeSpeed;
-    let drift = (Math.random() - 0.5) * 2;
+    updateRangeLabel(t);
+
+    if (intervalId) clearInterval(intervalId);
+    intervalId = setInterval(createLeaf, Math.max(20, createInterval));
+  }
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function createLeaf() {
+    const leaf = document.createElement('div');
+    leaf.className = 'leaf';
+    leaf.innerText = '🍃';
+    const startX = Math.random() * window.innerWidth;
+    const size = Math.random() * (leafSize * 0.5) + leafSize * 0.5;
+    leaf.style.left = startX + 'px';
+    leaf.style.top = '-48px';
+    leaf.style.fontSize = size + 'px';
+    leaf.style.opacity = (Math.random() * 0.6 + 0.35).toString();
+    document.body.appendChild(leaf);
+
+    // Параметри руху
+    const speed = Math.random() * leafSpeed + leafSpeed * 0.5;
+    let drift = (Math.random() - 0.5) * 2.8;
+    let rot = (Math.random() - 0.5) * 0.06;
+    let top = -48;
+    let left = startX;
 
     function fall() {
-        let top = parseFloat(snowflake.style.top);
-        let left = parseFloat(snowflake.style.left);
-        snowflake.style.top = (top + speed) + 'px';
-        snowflake.style.left = (left + drift) + 'px';
-
-        if (top < window.innerHeight) {
-            requestAnimationFrame(fall);
-        } else {
-            snowflake.remove();
-        }
+      top += speed;
+      left += drift;
+      rot += (Math.random() - 0.5) * 0.02;
+      leaf.style.top = top + 'px';
+      leaf.style.left = left + 'px';
+      leaf.style.transform = `rotate(${rot}turn)`;
+      if (top < window.innerHeight + 60) {
+        requestAnimationFrame(fall);
+      } else {
+        leaf.remove();
+      }
     }
-    fall();
-}
+    requestAnimationFrame(fall);
+  }
 
-// Ініціалізація
-document.getElementById('snowRange').addEventListener('input', updateSnowSettings);
-updateSnowSettings();
+  // Ініціалізація
+  if (rangeEl) {
+    rangeEl.addEventListener('input', updateSettings);
+  }
+  updateSettings();
+
+  // Очистка при виході
+  window.addEventListener('beforeunload', () => {
+    if (intervalId) clearInterval(intervalId);
+  });
+
+});
+// ...existing code...
