@@ -1,6 +1,4 @@
-// ...existing code...
 document.addEventListener('DOMContentLoaded', () => {
-
   const arrayOfLoveWishes = [
     "Нехай зелень життя приносить спокій і натхнення!",
     "Бажаю росту, відновлення й гармонії — у зелених тонах!",
@@ -21,10 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const rangeEl = document.getElementById('snowRange');
   const rangeValueEl = document.getElementById('range-value');
 
+  // Обробка кнопки побажань
   if (btn && loveEl) {
     btn.addEventListener('click', () => {
       const index = Math.floor(Math.random() * arrayOfLoveWishes.length);
       loveEl.innerText = arrayOfLoveWishes[index];
+      loveEl.style.opacity = 0;
+      requestAnimationFrame(() => {
+        loveEl.style.transition = 'opacity 0.5s ease';
+        loveEl.style.opacity = 1;
+      });
     });
   }
 
@@ -41,71 +45,69 @@ document.addEventListener('DOMContentLoaded', () => {
     else rangeValueEl.textContent = 'Висока';
   }
 
-  function updateSettings() {
-    if (!rangeEl) return;
-    const min = 100, max = 1200;
-    const minSize = 18, maxSize = 48;
-    const minSpeed = 0.9, maxSpeed = 4.0;
-    const value = Number(rangeEl.value);
-    const t = Math.max(0, Math.min(1, (value - min) / (max - min))); // 0..1
-    // Інтенсивність: повзунок вправо → більше листя
-    createInterval = Math.round(lerp(max, min, t)); // більше t → менший інтервал
-    leafSize = Math.round(lerp(maxSize, minSize, t)); // більше t → дрібніші листки
-    leafSpeed = lerp(minSpeed, maxSpeed, t); // більше t → швидше падіння
-
-    updateRangeLabel(t);
-
-    if (intervalId) clearInterval(intervalId);
-    intervalId = setInterval(createLeaf, Math.max(20, createInterval));
-  }
-
-  function lerp(a, b, t) { return a + (b - a) * t; }
-
   function createLeaf() {
     const leaf = document.createElement('div');
     leaf.className = 'leaf';
-    leaf.innerText = '🍃';
+    leaf.innerText = '🌿';
     const startX = Math.random() * window.innerWidth;
     const size = Math.random() * (leafSize * 0.5) + leafSize * 0.5;
-    leaf.style.left = startX + 'px';
-    leaf.style.top = '-48px';
-    leaf.style.fontSize = size + 'px';
-    leaf.style.opacity = (Math.random() * 0.6 + 0.35).toString();
+    
+    leaf.style.cssText = `
+      left: ${startX}px;
+      top: -48px;
+      font-size: ${size}px;
+      opacity: ${Math.random() * 0.6 + 0.35};
+    `;
+    
     document.body.appendChild(leaf);
 
-    // Параметри руху
     const speed = Math.random() * leafSpeed + leafSpeed * 0.5;
     let drift = (Math.random() - 0.5) * 2.8;
-    let rot = (Math.random() - 0.5) * 0.06;
+    let rotation = 0;
     let top = -48;
     let left = startX;
 
     function fall() {
       top += speed;
       left += drift;
-      rot += (Math.random() - 0.5) * 0.02;
-      leaf.style.top = top + 'px';
-      leaf.style.left = left + 'px';
-      leaf.style.transform = `rotate(${rot}turn)`;
+      rotation += 2;
+      
+      leaf.style.transform = `translate(${left}px, ${top}px) rotate(${rotation}deg)`;
+      
       if (top < window.innerHeight + 60) {
         requestAnimationFrame(fall);
       } else {
         leaf.remove();
       }
     }
+    
     requestAnimationFrame(fall);
+  }
+
+  function updateSettings() {
+    if (!rangeEl) return;
+    
+    const value = Number(rangeEl.value);
+    const t = (value - 100) / (1200 - 100); // нормалізація до 0..1
+    
+    createInterval = Math.max(50, 1200 - value); // інвертуємо для інтуїтивності
+    leafSize = Math.max(20, 40 - (t * 20));
+    leafSpeed = 1 + (t * 3);
+
+    updateRangeLabel(t);
+
+    if (intervalId) clearInterval(intervalId);
+    intervalId = setInterval(createLeaf, createInterval);
   }
 
   // Ініціалізація
   if (rangeEl) {
     rangeEl.addEventListener('input', updateSettings);
+    updateSettings();
   }
-  updateSettings();
 
   // Очистка при виході
   window.addEventListener('beforeunload', () => {
     if (intervalId) clearInterval(intervalId);
   });
-
 });
-// ...existing code...
