@@ -187,3 +187,44 @@ article p{margin:0}
   article{min-height:initial}
   .game-wrap{ grid-template-columns: 1fr; }
 }
+.game-wrap { 
+  display: grid; 
+  grid-template-columns: 320px 1fr; 
+  gap: 12px; 
+  align-items: stretch; /* важливо: вирівнювання за висотою */
+}
+
+.game-options{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+  /* забезпечити, щоб контейнер міг стиснутися на мобілці */
+  min-height: 0;
+}
+
+.game-option{
+  flex: 1 1 auto; /* щоб кожна опція займала пропорційну висоту контейнера */
+  height: auto;   /* прибираємо фіксовану висоту */
+  border-radius:8px;
+  cursor:pointer;
+  border:2px solid rgba(0,0,0,0.06);
+  transition: transform .12s ease, box-shadow .12s ease;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:48px; /* запас */
+}
+
+/* зберігаємо hover / state стилі */
+.game-option:hover{ transform:translateY(-4px); box-shadow:0 10px 20px rgba(0,0,0,0.06); }
+.game-option.correct{ outline: 3px solid rgba(102,187,106,0.35); box-shadow:0 12px 26px rgba(46,125,50,0.12); }
+.game-option.wrong{ opacity:0.45; filter:grayscale(20%); transform:scale(0.98) }
+
+/* мобільна адаптація: при вузьких екранах робимо опції сіткою (згортаємо) */
+@media (max-width:900px){
+  .game-wrap{ grid-template-columns: 1fr; }
+  .game-panel{ order: 2; }
+  .game-options{ order: 1; flex-direction: row; flex-wrap: wrap; gap:8px; }
+  .game-option{ flex: 0 1 calc(33.333% - 8px); min-height:64px; }
+}

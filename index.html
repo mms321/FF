@@ -38,24 +38,6 @@
         </div>
       </section>
 
-      <section class="wishes">
-        <div>
-          <h2>Зелені побажання</h2>
-          <div class="wishes-box">
-            <div class="wishes-decor">🍃✨🌱</div>
-            <button id="btn_love_wishes" type="button">Отримати зелене побажання</button>
-            <p id="love-wishes">Натисніть кнопку, щоб отримати побажання</p>
-            <div class="wishes-decor-bottom">🌿🌟🍀</div>
-          </div>
-        </div>
-
-        <div class="snow-control">
-          <label for="snowRange">Інтенсивність зелені</label>
-          <input type="range" id="snowRange" min="100" max="1200" value="400" step="50" />
-          <small id="range-value">Середня</small>
-        </div>
-      </section>
-
       <section class="ideas">
         <h2>Як втілити зелений колір мрії</h2>
         <p>Оберіть палітру, додайте рослини, текстиль та акценти — маленькі деталі дають великий ефект.</p>
@@ -72,7 +54,7 @@
       <!-- Міні-гра: Вгадай відтінок зеленого -->
       <section id="mini-game" class="game">
         <h2>Гра: вгадай відтінок зеленого</h2>
-        <p>Побачите зразок зверху — знайдіть серед варіантів той самий відтінок.</p>
+        <p>Побачите зразок зверху — знайдіть серед варіантів той самий відтінок. Маєте обмежену кількість спроб на раунд.</p>
 
         <div class="game-wrap">
           <div class="game-panel">
@@ -80,11 +62,33 @@
             <div id="game-message" class="game-message" aria-live="polite"></div>
             <div class="game-controls">
               <button id="game-new" class="btn-small" type="button">Нова гра</button>
-              <div class="game-score">Рахунок: <span id="game-score">0</span></div>
+              <div class="game-meta">
+                <div class="game-score">Бали: <span id="game-score">0</span></div>
+                <div class="game-attempts">Спроби: <span id="game-attempts">3</span></div>
+              </div>
             </div>
           </div>
 
           <div id="game-options" class="game-options" aria-label="Варіанти кольору"></div>
+        </div>
+      </section>
+
+      <!-- Перенесені побажання під грою -->
+      <section class="wishes">
+        <div>
+          <h2>Зелені побажання</h2>
+          <div class="wishes-box">
+            <div class="wishes-decor">🍃✨🌱</div>
+            <button id="btn_love_wishes" type="button">Отримати побажання (1 бал)</button>
+            <p id="love-wishes">Щоб отримати побажання — здобудьте бали у грі.</p>
+            <div class="wishes-decor-bottom">🌿🌟🍀</div>
+          </div>
+        </div>
+
+        <div class="snow-control">
+          <label for="snowRange">Інтенсивність зелені</label>
+          <input type="range" id="snowRange" min="100" max="1200" value="400" step="50" />
+          <small id="range-value">Середня</small>
         </div>
       </section>
     </main>
